@@ -401,7 +401,7 @@ def create_bank_entry_and_reconcile(bank_transaction_name: str | int,
     bank_entry.insert()
     if bank_entry.is_locked:
         bank_entry.unlock()
-    bank_entry.submit()
+    bank_entry._submit()  # JE.submit() queues >100 rows in background; reconcile needs GL entries now
 
     if bank_transaction.deposit > 0.0:
         paid_amount = bank_transaction.deposit
